@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carrasco's Pizzas | Rodízio de Pizza em Domicílio</title>
+  <style>
+    :root {
+      --bg: #080706;
+      --bg-soft: #14100d;
+      --card: #1d1712;
+      --cream: #f7dfb2;
+      --cream-soft: #fff1cf;
+      --red: #b72a1f;
+      --red-light: #e13b2d;
+      --green: #387b2e;
+      --gold: #c79346;
+      --text: #f8ead0;
+      --muted: #c9ad82;
+      --border: rgba(247, 223, 178, 0.22);
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(183, 42, 31, 0.18), transparent 30%),
+        radial-gradient(circle at 80% 0%, rgba(199, 147, 70, 0.16), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(8, 7, 6, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--cream);
+    }
+
+    .brand-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold);
+      background: #000;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 1.2rem;
+      line-height: 1.1;
+    }
+
+    .brand span {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--cream-soft);
+      font-size: 0.95rem;
+    }
+
+    .menu a {
+      opacity: 0.86;
+      transition: 0.2s ease;
+    }
+
+    .menu a:hover {
+      color: var(--gold);
+      opacity: 1;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 22px;
+      background: linear-gradient(135deg, var(--red), var(--red-light));
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 12px 28px rgba(183, 42, 31, 0.32);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      font-family: Arial, sans-serif;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 34px rgba(183, 42, 31, 0.44);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 82px 0 70px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(8, 7, 6, 0.74), rgba(8, 7, 6, 0.94)),
+        url("https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1600&q=80") center/cover;
+      z-index: -2;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 580px;
+      height: 580px;
+      right: -180px;
+      top: 40px;
+      border: 2px solid rgba(247, 223, 178, 0.18);
+      border-radius: 50%;
+      z-index: -1;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      gap: 48px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.78rem;
+      font-family: Arial, sans-serif;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow::before,
+    .eyebrow::after {
+      content: "";
+      width: 28px;
+      height: 2px;
+      background: var(--red);
+    }
+
+    h1 {
+      font-size: clamp(3.2rem, 8vw, 7.5rem);
+      line-height: 0.9;
+      color: var(--cream);
+      text-shadow: 0 8px 0 rgba(183, 42, 31, 0.38), 0 16px 45px rgba(0, 0, 0, 0.55);
+      margin-bottom: 22px;
+      letter-spacing: -2px;
+    }
+
+    .hero h1 span {
+      display: block;
+      color: var(--red-light);
+      font-size: 0.34em;
+      letter-spacing: 12px;
+      text-transform: uppercase;
+      margin-top: 12px;
+      font-family: Arial, sans-serif;
+      text-shadow: none;
+    }
+
+    .hero-text {
+      font-size: 1.18rem;
+      color: #f4dfbd;
+      max-width: 620px;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--cream);
+      box-shadow: none;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 620px;
+    }
+
+    .stat {
+      padding: 18px;
+      border: 1px solid var(--border);
+      background: rgba(20, 16, 13, 0.78);
+      border-radius: 20px;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--cream);
+      font-size: 1.45rem;
+      line-height: 1;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-family: Arial, sans-serif;
+    }
+
+    .hero-card {
+      background: rgba(20, 16, 13, 0.78);
+      border: 1px solid var(--border);
+      border-radius: 34px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border: 1px dashed rgba(247, 223, 178, 0.22);
+      border-radius: 26px;
+      pointer-events: none;
+    }
+
+    .hero-logo {
+      width: min(430px, 100%);
+      margin: 0 auto;
+      border-radius: 28px;
+      filter: drop-shadow(0 24px 34px rgba(0, 0, 0, 0.45));
+    }
+
+    section {
+      padding: 82px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 42px;
+    }
+
+    .section-title .eyebrow {
+      justify-content: center;
+    }
+
+    .section-title h2 {
+      color: var(--cream);
+      font-size: clamp(2.2rem, 4vw, 4rem);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      max-width: 720px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .service-card {
+      padding: 30px;
+      background: linear-gradient(180deg, rgba(29, 23, 18, 0.96), rgba(16, 12, 9, 0.96));
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.22);
+    }
+
+    .service-icon {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: rgba(183, 42, 31, 0.16);
+      border: 1px solid rgba(183, 42, 31, 0.36);
+      color: var(--gold);
+      font-size: 1.8rem;
+      margin-bottom: 18px;
+    }
+
+    .service-card h3 {
+      color: var(--cream);
+      font-size: 1.45rem;
+      margin-bottom: 10px;
+    }
+
+    .service-card p {
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 0.98rem;
+    }
+
+    .napoletana-section {
+      background:
+        radial-gradient(circle at 15% 30%, rgba(56, 123, 46, 0.16), transparent 28%),
+        linear-gradient(180deg, rgba(199, 147, 70, 0.08), transparent);
+      border-top: 1px solid var(--border);
+    }
+
+    .napoletana-grid {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .napoletana-image {
+      border-radius: 34px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .napoletana-image::after {
+      content: "Pizza Napoletana";
+      position: absolute;
+      left: 22px;
+      bottom: 22px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(8, 7, 6, 0.78);
+      border: 1px solid var(--border);
+      color: var(--cream);
+      font-family: Arial, sans-serif;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+
+    .napoletana-image img {
+      width: 100%;
+      height: 520px;
+      object-fit: cover;
+    }
+
+    .napoletana-content {
+      background: rgba(29, 23, 18, 0.86);
+      border: 1px solid var(--border);
+      border-radius: 34px;
+      padding: 36px;
+      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.22);
+    }
+
+    .napoletana-content h2 {
+      color: var(--cream);
+      font-size: clamp(2.2rem, 4vw, 4rem);
+      line-height: 1;
+      margin-bottom: 18px;
+    }
+
+    .napoletana-content p {
+      color: var(--muted);
+      margin-bottom: 16px;
+      font-size: 1.04rem;
+    }
+
+    .napoletana-points {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .napoletana-points div {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(8, 7, 6, 0.42);
+      border: 1px solid var(--border);
+    }
+
+    .napoletana-points strong {
+      display: block;
+      color: var(--cream);
+      margin-bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .napoletana-points span {
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 0.9rem;
+    }
+
+    .gallery-section {
+      background: linear-gradient(180deg, rgba(183, 42, 31, 0.08), transparent);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 34px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      background: #000;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.6s ease;
+    }
+
+    .slide {
+      min-width: 100%;
+      position: relative;
+      height: 520px;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.88;
+    }
+
+    .slide-caption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 70px 34px 30px;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.82));
+    }
+
+    .slide-caption h3 {
+      color: var(--cream);
+      font-size: 2rem;
+      margin-bottom: 6px;
+    }
+
+    .slide-caption p {
+      color: var(--cream-soft);
+      font-family: Arial, sans-serif;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(8, 7, 6, 0.74);
+      color: var(--cream);
+      font-size: 1.7rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+
+    .carousel-btn.prev {
+      left: 18px;
+    }
+
+    .carousel-btn.next {
+      right: 18px;
+    }
+
+    .dots {
+      position: absolute;
+      bottom: 18px;
+      right: 28px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 0;
+      background: rgba(247, 223, 178, 0.42);
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background: var(--red-light);
+    }
+
+    .budget-wrap {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 34px;
+      align-items: start;
+    }
+
+    .budget-info {
+      padding: 34px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .budget-info h2 {
+      color: var(--cream);
+      font-size: 3rem;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .budget-info p {
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .checklist {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      font-family: Arial, sans-serif;
+      color: var(--cream-soft);
+    }
+
+    .checklist li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .checklist li::before {
+      content: "✓";
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .form-card {
+      background: linear-gradient(180deg, rgba(29, 23, 18, 0.98), rgba(12, 9, 7, 0.98));
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .form-group {
+      display: grid;
+      gap: 8px;
+      font-family: Arial, sans-serif;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: var(--cream);
+      font-weight: 700;
+      font-size: 0.94rem;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid rgba(247, 223, 178, 0.24);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--cream-soft);
+      border-radius: 16px;
+      padding: 14px 15px;
+      outline: none;
+      font: inherit;
+      transition: 0.2s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(199, 147, 70, 0.14);
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .form-note {
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 0.88rem;
+      margin-top: 14px;
+    }
+
+    .submit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+
+    .footer {
+      padding: 38px 0;
+      border-top: 1px solid var(--border);
+      background: #050403;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .footer strong {
+      color: var(--cream);
+    }
+
+    @media (max-width: 920px) {
+      .hero-grid,
+      .budget-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card {
+        max-width: 540px;
+        margin: 0 auto;
+      }
+
+      .services-grid,
+      .napoletana-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .menu {
+        display: none;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .slide {
+        height: 390px;
+      }
+
+      .napoletana-image img {
+        height: 380px;
+      }
+
+      .napoletana-points {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding-top: 48px;
+      }
+
+      .brand strong {
+        font-size: 1rem;
+      }
+
+      .brand-logo {
+        width: 54px;
+        height: 54px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .budget-info h2 {
+        font-size: 2.35rem;
+      }
+
+      .slide {
+        height: 310px;
+      }
+
+      .carousel-btn {
+        width: 38px;
+        height: 38px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="#inicio" aria-label="Carrasco's Pizzas">
+        <!-- Troque o src abaixo pelo caminho do seu logo -->
+        <img class="brand-logo" src="img/logo-carrascos.jpeg" alt="Logo Carrasco's Pizzas" />
+        <div>
+          <strong>Carrasco's Pizzas</strong>
+          <span>Pizza Napoletana</span>
+        </div>
+      </a>
+
+      <nav class="menu" aria-label="Menu principal">
+        <a href="#servicos">Serviços</a>
+        <a href="#napoletana">Pizza Napoletana</a>
+        <a href="#galeria">Galeria</a>
+        <a class="btn" href="#orcamento">Solicitar orçamento</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="inicio" class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="eyebrow">Rodízio em domicílio</div>
+          <h1>Carrasco's <span>Pizzas</span></h1>
+          <p class="hero-text">
+            Transforme sua festa em uma verdadeira experiência de pizzaria napoletana artesanal. Levamos forno, equipe,
+            ingredientes selecionados e toda a estrutura para servir um rodízio de pizzas de longa fermentação, leves,
+            aromáticas e assadas na hora no seu evento.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#orcamento" class="btn">Quero meu orçamento</a>
+            <a href="#galeria" class="btn btn-secondary">Ver galeria</a>
+          </div>
+
+          <div class="stats" aria-label="Destaques do serviço">
+            <div class="stat">
+              <strong>100%</strong>
+              <span>estrutura inclusa</span>
+            </div>
+            <div class="stat">
+              <strong>Napoletana</strong>
+              <span>massa de longa fermentação</span>
+            </div>
+            <div class="stat">
+              <strong>Festas</strong>
+              <span>eventos e confraternizações</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <!-- Troque o src abaixo pelo caminho do seu logo em alta qualidade -->
+          <img class="hero-logo" src="img/logo-carrascos.jpeg" alt="Carrasco's Pizzas - Rodízio de Pizza" />
+        </div>
+      </div>
+    </section>
+
+    <section id="servicos">
+      <div class="container">
+        <div class="section-title">
+          <div class="eyebrow">Como funciona</div>
+          <h2>Levamos a pizzaria até você</h2>
+          <p>
+            Ideal para aniversários, casamentos, empresas, confraternizações e eventos em casa. Você aproveita a festa,
+            enquanto nossa equipe prepara pizzas napoletanas no local, com massa leve, borda alta e assamento rápido.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <article class="service-card">
+            <div class="service-icon">🍕</div>
+            <h3>Napoletanas feitas na hora</h3>
+            <p>
+              Massa de longa fermentação, borda alta, molho especial, ingredientes frescos e pizzas assadas durante o evento para servir sempre quentinhas.
+            </p>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon">🔥</div>
+            <h3>Forno para alta temperatura</h3>
+            <p>
+              Levamos forno, utensílios, equipe e organização necessária para assar pizzas napoletanas no ponto certo durante sua festa.
+            </p>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon">🎉</div>
+            <h3>Experiência de pizzaria</h3>
+            <p>
+              Atendimento personalizado para eventos familiares, corporativos e comemorações, com o charme da pizza napoletana feita ao vivo.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="napoletana" class="napoletana-section">
+      <div class="container napoletana-grid">
+        <div class="napoletana-image">
+          <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&w=1200&q=80" alt="Pizza napoletana artesanal com borda alta" />
+        </div>
+
+        <div class="napoletana-content">
+          <div class="eyebrow">Nosso diferencial</div>
+          <h2>O que é pizza napoletana?</h2>
+          <p>
+            A pizza napoletana é conhecida pela massa leve, borda alta e aerada, centro macio e sabor mais delicado.
+            O grande segredo está na fermentação longa: a massa descansa por muitas horas, desenvolvendo aroma,
+            textura e uma digestão mais agradável.
+          </p>
+          <p>
+            No evento, as pizzas são abertas, montadas e assadas na hora em alta temperatura. O resultado é uma pizza
+            com borda levemente tostada, massa elástica, molho presente e ingredientes valorizados sem excesso de peso.
+          </p>
+
+          <div class="napoletana-points">
+            <div>
+              <strong>Longa fermentação</strong>
+              <span>Massa mais leve, saborosa e aromática.</span>
+            </div>
+            <div>
+              <strong>Borda alta e aerada</strong>
+              <span>O famoso cornicione da pizza napoletana.</span>
+            </div>
+            <div>
+              <strong>Assada na hora</strong>
+              <span>Alta temperatura para textura e sabor marcantes.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="galeria" class="gallery-section">
+      <div class="container">
+        <div class="section-title">
+          <div class="eyebrow">Galeria</div>
+          <h2>Momentos com sabor de pizza</h2>
+          <p>Imagens ilustrativas para você trocar depois pelas fotos reais dos seus eventos, pizzas e bastidores.</p>
+        </div>
+
+        <div class="carousel" aria-label="Galeria de fotos">
+          <div class="carousel-track" id="carouselTrack">
+            <div class="slide">
+              <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?auto=format&fit=crop&w=1400&q=80" alt="Pizza artesanal saindo do forno" />
+              <div class="slide-caption">
+                <h3>Pizzas napoletanas artesanais</h3>
+                <p>Massa de longa fermentação, preparada e servida na hora para seus convidados.</p>
+              </div>
+            </div>
+
+            <div class="slide">
+              <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1400&q=80" alt="Pizza margherita com manjericão" />
+              <div class="slide-caption">
+                <h3>Sabores clássicos na versão napoletana</h3>
+                <p>Opções tradicionais, especiais e doces com massa leve e borda aerada.</p>
+              </div>
+            </div>
+
+            <div class="slide">
+              <img src="https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?auto=format&fit=crop&w=1400&q=80" alt="Mesa de evento com pizzas" />
+              <div class="slide-caption">
+                <h3>Eventos especiais</h3>
+                <p>Uma experiência prática, elegante e deliciosa para sua festa.</p>
+              </div>
+            </div>
+
+            <div class="slide">
+              <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&w=1400&q=80" alt="Pizza assada em forno quente" />
+              <div class="slide-caption">
+                <h3>Forno e equipe no local</h3>
+                <p>Levamos a estrutura ideal para assar pizzas napoletanas durante o evento.</p>
+              </div>
+            </div>
+          </div>
+
+          <button class="carousel-btn prev" type="button" id="prevBtn" aria-label="Foto anterior">‹</button>
+          <button class="carousel-btn next" type="button" id="nextBtn" aria-label="Próxima foto">›</button>
+
+          <div class="dots" id="carouselDots" aria-label="Indicadores da galeria"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="orcamento">
+      <div class="container budget-wrap">
+        <div class="budget-info">
+          <div class="eyebrow">Solicite agora</div>
+          <h2>Peça seu orçamento</h2>
+          <p>
+            Envie os dados básicos do seu evento para montarmos uma proposta personalizada de rodízio de pizza napoletana,
+            de acordo com o local, quantidade de convidados e data desejada.
+          </p>
+
+          <ul class="checklist">
+            <li>Atendimento para festas e eventos em domicílio.</li>
+            <li>Rodízio com pizzas napoletanas salgadas e doces.</li>
+            <li>Massa artesanal de longa fermentação, mais leve e saborosa.</li>
+            <li>Equipe preparada para servir seus convidados.</li>
+            <li>Estrutura completa levada até o endereço do evento.</li>
+          </ul>
+        </div>
+
+        <form class="form-card" id="budgetForm">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label for="nome">Nome</label>
+              <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required />
+            </div>
+
+            <div class="form-group">
+              <label for="telefone">Telefone</label>
+              <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required />
+            </div>
+
+            <div class="form-group">
+              <label for="dataEvento">Data do evento</label>
+              <input type="date" id="dataEvento" name="dataEvento" required />
+            </div>
+
+            <div class="form-group">
+              <label for="cep">CEP do local do evento</label>
+              <input type="text" id="cep" name="cep" placeholder="00000-000" required />
+            </div>
+
+            <div class="form-group">
+              <label for="convidadosAdultos">Convidados acima de 11 anos</label>
+              <input type="number" id="convidadosAdultos" name="convidadosAdultos" min="0" placeholder="Ex: 40" required />
+            </div>
+
+            <div class="form-group">
+              <label for="convidadosCriancas">Convidados entre 6 e 11 anos</label>
+              <input type="number" id="convidadosCriancas" name="convidadosCriancas" min="0" placeholder="Ex: 8" required />
+            </div>
+
+            <div class="form-group full">
+              <label for="observacoes">Observações</label>
+              <textarea id="observacoes" name="observacoes" placeholder="Conte mais sobre o tipo de evento, horário, cidade, local aberto ou fechado etc."></textarea>
+            </div>
+          </div>
+
+          <div class="submit-row">
+            <button class="btn" type="submit">Enviar solicitação</button>
+            <p class="form-note">Após o envio, entraremos em contato para confirmar os detalhes.</p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p><strong>Carrasco's Pizzas</strong> — Rodízio de pizza napoletana em domicílio para festas e eventos.</p>
+      <p>© <span id="year"></span> Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    const track = document.getElementById('carouselTrack');
+    const slides = Array.from(track.children);
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dotsContainer = document.getElementById('carouselDots');
+    let currentIndex = 0;
+    let autoplay;
+
+    slides.forEach((_, index) => {
+      const dot = document.createElement('button');
+      dot.className = 'dot';
+      dot.type = 'button';
+      dot.setAttribute('aria-label', `Ir para foto ${index + 1}`);
+      dot.addEventListener('click', () => goToSlide(index));
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = Array.from(dotsContainer.children);
+
+    function updateCarousel() {
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      dots.forEach((dot, index) => dot.classList.toggle('active', index === currentIndex));
+    }
+
+    function goToSlide(index) {
+      currentIndex = (index + slides.length) % slides.length;
+      updateCarousel();
+      restartAutoplay();
+    }
+
+    function nextSlide() {
+      goToSlide(currentIndex + 1);
+    }
+
+    function prevSlide() {
+      goToSlide(currentIndex - 1);
+    }
+
+    function startAutoplay() {
+      autoplay = setInterval(nextSlide, 4500);
+    }
+
+    function restartAutoplay() {
+      clearInterval(autoplay);
+      startAutoplay();
+    }
+
+    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', nextSlide);
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    document.getElementById('budgetForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const formData = new FormData(event.target);
+      const dados = Object.fromEntries(formData.entries());
+
+      alert(
+        'Solicitação enviada com sucesso!\n\n' +
+        'Nome: ' + dados.nome + '\n' +
+        'Telefone: ' + dados.telefone + '\n' +
+        'Data: ' + dados.dataEvento + '\n' +
+        'CEP: ' + dados.cep + '\n' +
+        'Convidados acima de 11 anos: ' + dados.convidadosAdultos + '\n' +
+        'Convidados entre 6 e 11 anos: ' + dados.convidadosCriancas
+      );
+
+      event.target.reset();
+    });
+
+    updateCarousel();
+    startAutoplay();
+  </script>
+</body>
+</html>
